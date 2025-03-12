@@ -3,14 +3,16 @@ import {StatusBar} from 'expo-status-bar';
 import {Button, StyleSheet, Text, View} from 'react-native';
 import {Dropdown} from "./components/dropdown/DropDown";
 import {MatchesList} from "./widgets/MatchList/ui/MatchList";
+import {useGetMatchesQuery} from "./entities/Match/api/matchesApi";
 
 
 export const App = () => {
+  const {refetch} = useGetMatchesQuery()
   return (
       <View style={styles.container}>
         <Text style={styles.title}>Match Tracker</Text>
         <Dropdown/>
-        <View style={styles.button}><Button color={'#fff'} title={'Обновить'}/></View>
+        <View style={styles.button}><Button onPress={() => refetch()} color={'#fff'} title={'Обновить'}/></View>
         <MatchesList/>
         <StatusBar style="auto"/>
       </View>)
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#fff',
     height: 56,
-    width:'100%',
+    width: '100%',
     borderRadius: 8,
     backgroundColor: '#EB0237',
   },

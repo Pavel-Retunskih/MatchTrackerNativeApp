@@ -16,15 +16,15 @@ export function MatchInfo({awayScore, homeScore, status, awayTeamName, homeTeamN
   return <View style={styles.container}>
     <TeamInfo teamName={homeTeamName}/>
     <Score awayScore={awayScore} homeScore={homeScore} status={status}/>
-    <TeamInfo teamName={awayTeamName}/>
+    <TeamInfo teamName={awayTeamName} isReverse/>
   </View>
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    width: '100%',
   }
 })

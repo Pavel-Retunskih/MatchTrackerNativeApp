@@ -1,8 +1,13 @@
-import {View, StyleSheet} from "react-native";
+import {View, StyleSheet, Pressable} from "react-native";
 import {MatchInfo} from "./MatchInfo/MatchInfo";
 import {Match} from "../model/type";
+import {ArrowOpenIcon} from "../../../../assets/icons/svg/ArrowOpenIcon";
+import {useState} from "react";
+import {MatchDescription} from "./MatchDescription/MatchDescription";
+import ArrowCloseIcon from "../../../../assets/icons/svg/ArrowCloseIcon";
 
 export const MatchCard = ({match}: { match: Match }) => {
+  const [open, setOpen] = useState<boolean>(false);
   const {homeTeam, awayTeam, homeScore, awayScore, status} = match
 
   return <View style={styles.container}>
@@ -13,19 +18,24 @@ export const MatchCard = ({match}: { match: Match }) => {
         awayScore={awayScore}
         status={status}
     />
+    {!open && <Pressable style={styles.openButton} onPress={() => setOpen(true)}><ArrowOpenIcon/></Pressable>}
+    {open && (<MatchDescription awayTeam={awayTeam} homeTeam={homeTeam}/>)}
+    {open && (<Pressable style={styles.openButton} onPress={() => setOpen(false)}><ArrowCloseIcon/></Pressable>)}
   </View>
 }
 
 const styles = StyleSheet.create({
       container: {
-        height: 96,
-        width: '100%',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: '#0B0E12',
         paddingHorizontal: 8,
-        marginTop: 8,
-        marginBottom: 8,
-        flex: 1,
+        paddingVertical: 8,
         borderRadius: 8
+      },
+      openButton: {
+        flex: 1,
       }
     }
 )
