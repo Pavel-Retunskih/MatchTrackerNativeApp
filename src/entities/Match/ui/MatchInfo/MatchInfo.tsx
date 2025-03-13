@@ -22,7 +22,7 @@ export function MatchInfo({awayScore, homeScore, status, awayTeamName, homeTeamN
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
     width: '100%',

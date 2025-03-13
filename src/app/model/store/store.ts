@@ -1,6 +1,7 @@
-import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
+import {configureStore} from '@reduxjs/toolkit';
 import {appSlice} from "../slice/appSlice";
-import {matchesApi} from "../../../entities/Match/api/matchesApi";
+import {matchesApi} from "../../../widgets/MatchList/api/matchesApi";
+
 
 export const store = configureStore({
   reducer: {

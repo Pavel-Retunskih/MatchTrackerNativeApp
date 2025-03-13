@@ -1,38 +1,38 @@
-import {useCallback, useRef, useState} from "react";
-import {StyleSheet, View, Text, TouchableOpacity, Animated} from "react-native";
-import FlatList = Animated.FlatList;
-import {useAppDispatch} from "../../app/model/hooks/hooks";
-import {changeFilter, MatchFilter} from "../../app/model/slice/appSlice";
+import {useCallback, useState} from "react";
+import {StyleSheet, View, Text, TouchableOpacity, FlatList, ViewProps} from "react-native";
 
+type Item<T> = {
+  label: string
+  value: T
+}
 
-export const Dropdown = () => {
+type Props<T> = {
+  data: Array<Item<T>>;
+  defaultItem: Item<T>;
+  onChange: (value: Item<T>) => void;
+} & ViewProps
+export const Dropdown = <T extends unknown>({data, defaultItem, onChange}: Props<T>) => {
   const [open, setOpen] = useState(false)
-  const [value, setValue] = useState<{ label: string, value: MatchFilter }>({label: 'Все статусы', value: 'All'})
-  const dispatch = useAppDispatch()
+  const [item, setItem] = useState<Item<T>>(defaultItem)
   const toggleOpen = useCallback(() => setOpen(prev => !prev), [])
 
-  const selectValue = useCallback((item: { label: string, value: MatchFilter }) => {
+  const selectValue = useCallback((item: Item<T>) => {
     if (item) {
-      setValue(item)
+      setItem(item)
+      onChange(item)
       setOpen(false)
-      dispatch(changeFilter(item.value))
     }
   }, [])
 
   return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.button} onPress={toggleOpen}>
-          <Text style={styles.title}>{value.label}</Text>
+          <Text style={styles.title}>{item.label}</Text>
         </TouchableOpacity>
         {open && (<View style={styles.options}>
-          <FlatList<{ label: string, value: MatchFilter }>
-              keyExtractor={item => item.value}
-              data={[
-                {label: 'Все статусы', value: 'All',},
-                {label: 'Live', value: 'Ongoing'},
-                {label: 'Finished', value: 'Finished'},
-                {label: 'Match preparing', value: 'Scheduled'},
-              ]}
+          <FlatList
+              keyExtractor={item => item.value as string}
+              data={data}
               renderItem={({item}) => (
                   <TouchableOpacity style={styles.optionItem} onPress={() => selectValue(item)}>
                     <Text style={styles.title}>
@@ -49,6 +49,7 @@ export const Dropdown = () => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
+    marginTop: 14
   },
   button: {
     height: 50,

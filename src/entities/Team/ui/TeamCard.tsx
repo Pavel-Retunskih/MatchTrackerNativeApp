@@ -1,29 +1,21 @@
 import {Team} from "../model/type";
-import {View, FlatList, Text, StyleSheet} from 'react-native'
+import {View, FlatList, StyleSheet} from 'react-native'
 import {PlayerCard} from "../../Player/ui/PlayerCard";
+import {StatCard} from "../../../shared/statCard/statCard";
 
 export function TeamCard({team}: { team: Team }) {
   const {players, points, place, total_kills} = team
 
   return (
-      <View style={{gap: 8}}>
+      <View style={{flex: 1}}>
         <FlatList data={players}
-                  style={{flexDirection: 'row', gap: 8, justifyContent: 'space-between'}}
+                  style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}
                   keyExtractor={({username}) => username}
                   renderItem={({item}) => <PlayerCard player={item}/>}></FlatList>
         <View style={styles.container}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{color: '#fff'}}>Points:</Text>
-            <Text style={{color: '#fff'}}>{points}</Text>
-          </View>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{color: '#fff'}}>Место:</Text>
-            <Text style={{color: '#fff'}}>{place}</Text>
-          </View>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{color: '#fff'}}>Всего убийств:</Text>
-            <Text style={{color: '#fff'}}>{total_kills}</Text>
-          </View>
+          <StatCard title={'Points:'} statistic={points}/>
+          <StatCard title={'Место:'} statistic={place}/>
+          <StatCard title={'Всего убийств:'} statistic={total_kills}/>
         </View>
       </View>
   )
@@ -31,6 +23,7 @@ export function TeamCard({team}: { team: Team }) {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 8,
     flexDirection: 'row',
     backgroundColor: '#101318',
     justifyContent: 'space-around',

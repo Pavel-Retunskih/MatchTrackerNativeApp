@@ -1,8 +1,8 @@
 import {MatchCard} from "../../../entities/Match/ui/Match";
-import {useGetMatchesQuery} from "../../../entities/Match/api/matchesApi";
 import {FlatList, StyleSheet, Text, View} from "react-native";
 import {useAppSelector} from "../../../app/model/hooks/hooks";
 import {MatchFilter} from "../../../app/model/slice/appSlice";
+import {useGetMatchesQuery} from "../api/matchesApi";
 
 export function MatchesList() {
   const {data, isSuccess, isFetching} = useGetMatchesQuery()
@@ -19,6 +19,7 @@ export function MatchesList() {
         {isFetching && <Text>Loading...</Text>}
         {isSuccess && <View style={styles.container}>
           <FlatList
+              style={{width: '100%'}}
               ItemSeparatorComponent={() => <View style={{height: 10}}/>}
               data={getFilteredMatches(filter)}
               renderItem={({item}) => <MatchCard
@@ -31,6 +32,6 @@ export function MatchesList() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%',
+    marginTop: 32
   },
 })
